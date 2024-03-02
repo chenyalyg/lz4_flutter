@@ -1,9 +1,11 @@
 # 安装
 
+```javascript
 lz4_flutter:
   git:
     url: https://github.com/chenyalyg/lz4_flutter.git
     ref: master
+```
 
 ## 说明
 
