@@ -48,48 +48,26 @@ target_compile_definitions(${PLUGIN_NAME} PRIVATE FLUTTER_PLUGIN_IMPL)
 
 
 # lz4
-add_subdirectory("lz4/build/cmake")
+include(FetchContent)
+FetchContent_Declare(
+  lz4
+  GIT_REPOSITORY https://github.com/lz4/lz4.git
+  GIT_TAG v1.9.4
+)
 
-include_directories(SYSTEM "lz4/lib")
+FetchContent_MakeAvailable(lz4)
 
-set(LZ4_BUILD_CLI OFF CACHE BOOL "Build LZ4 CLI" FORCE)
-set(LZ4_BUILD_LEGACY_LZ4C OFF CACHE BOOL "Build lz4c progam with legacy argument support" FORCE)
-
-# lz4
-# ExternalProject_Add(
-#         lz4
-#         PREFIX "${CMAKE_BINARY_DIR}/lz4"
-#         URL "https://github.com/lz4/lz4/archive/v1.9.1.tar.gz"
-#         URL_MD5 a80f28f2a2e5fe59ebfe8407f793da22
-#         # do not update
-#         UPDATE_COMMAND ""
-#         # fix missing CMakeLists.txt in source root dir
-#         PATCH_COMMAND ${CMAKE_COMMAND} -E copy ${CMAKE_SOURCE_DIR}/patches/lz4_CMakeLists.txt <SOURCE_DIR>/CMakeLists.txt
-#         # do not install
-#         INSTALL_COMMAND ""
-# )
-# ExternalProject_Get_Property( lz4 SOURCE_DIR BINARY_DIR )
-# set( lz4_INCLUDE_DIR "${SOURCE_DIR}/lib" )
-# set( lz4_STATIC_LIB ${BINARY_DIR}/contrib/cmake_unofficial/liblz4.a )
-
-
-# add_dependencies(lz4)
-# Source include directories and library dependencies. Add any plugin-specific
-# dependencies here.
-
+include_directories("${lz4_SOURCE_DIR}/lib")
+add_subdirectory("${lz4_SOURCE_DIR}/build/cmake" "${lz4_BINARY_DIR}")
 
 
 target_include_directories(${PLUGIN_NAME} INTERFACE
   "${CMAKE_CURRENT_SOURCE_DIR}/include"
- 
   )
 target_link_libraries(${PLUGIN_NAME} 
         PRIVATE flutter flutter_wrapper_plugin lz4_static
         )
 
-#target_link_libraries_system(${PLUGIN_NAME} lz4_static)
-
-# target_link_libraries(${PLUGIN_NAME} lz4)
 
 # List of absolute paths to libraries that should be bundled with the plugin.
 # This list could contain prebuilt libraries, or libraries created by an
