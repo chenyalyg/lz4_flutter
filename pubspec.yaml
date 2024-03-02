@@ -1,6 +1,6 @@
 name: lz4_flutter
 description: lz4 flutter flugin
-version: 0.0.1
+version: 0.0.2
 homepage: https://github.com/chenyalyg/lz4_flutter
 
 environment:
@@ -10,6 +10,8 @@ environment:
 dependencies:
   flutter:
     sdk: flutter
+
+  plugin_platform_interface: ^2.0.2
 
 dev_dependencies:
   flutter_test:
@@ -32,6 +34,10 @@ flutter:
         pluginClass: Lz4FlutterPlugin
       ios:
         pluginClass: Lz4FlutterPlugin
+      windows:
+        pluginClass: Lz4FlutterPluginCApi
+
+
 
   # To add assets to your plugin package, add an assets section, like this:
   # assets:

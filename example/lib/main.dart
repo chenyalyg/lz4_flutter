@@ -19,6 +19,7 @@ class MyApp extends StatefulWidget {
 
 class _MyAppState extends State<MyApp> {
   String _test = 'Failed';
+  final lz4Flutter = Lz4Flutter();
 
   @override
   void initState() {
@@ -26,15 +27,55 @@ class _MyAppState extends State<MyApp> {
     initPlatformState();
   }
 
-
   Future<void> initPlatformState() async {
     String test;
+    var platformVersion = await lz4Flutter.getPlatformVersion();
+    print("platformVersion==$platformVersion");
 
     try {
-      var dst=await Lz4Flutter.lz4_encode(Uint8List.fromList([1,2,3,4,5,6,7,8,9,1,2,3,4,5,6,7,8,9,1,2,3,4,5,6,7,8,9,1,2,3,4,5,6,7,8,9]));
-      var src=await Lz4Flutter.lz4_decode(dst!,36);
+      var dst = await Lz4Flutter.lz4_encode(Uint8List.fromList([
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7,
+        8,
+        9,
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7,
+        8,
+        9,
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7,
+        8,
+        9,
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7,
+        8,
+        9
+      ]));
+      print(dst);
+      var src = await Lz4Flutter.lz4_decode(dst!, 36);
+      print(src);
 
-      test=src?.toString()??"Failed";
+      test = src?.toString() ?? "Failed";
     } on PlatformException {
       test = 'Failed';
     }
